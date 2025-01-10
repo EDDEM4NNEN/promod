@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = (x, y)            # Set the player's initial position
 
         # Movement attributes
-        self.speed = 2  # Movement speed
+        self.speed = 1.5  # Movement speed
         self.velocity_x = 0
         self.velocity_y = 0
 
@@ -20,10 +20,10 @@ class Player(pygame.sprite.Sprite):
             self.velocity_x += 0.5
         elif self.velocity_x > 0:
             self.velocity_x -= 0.5
-        self.velocity_x = np.clip(self.velocity_x,-10,10) #setter maksimal og minimal verdi
+        self.velocity_x = np.clip(self.velocity_x,-8,8) #setter maksimal og minimal verdi
 
-        self.velocity_y += 0.7
-        self.velocity_y = np.clip(self.velocity_y,-1000, 20) #maksimal og minimal verdi
+        self.velocity_y += 0.6 #0.3 breaker collisions? low grav = 0.28, vanlig = 0.5
+        self.velocity_y = np.clip(self.velocity_y,-1000, 26) #maksimal og minimal verdi 26 er maksimalfart nedover før collisions ikke funker.
         self.on_ground = pygame.sprite.spritecollide(self, platforms, False)
 
         keys = pygame.key.get_pressed() # definerer keys
@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite):
             self.velocity_x += self.speed
 
         if (keys[pygame.K_w] or keys[pygame.K_SPACE]) and self.on_ground: 
-            self.velocity_y -= 20
+            self.velocity_y -= 15
             
     def update(self): #oppdaterer posisjonen til player
         self.rect.x += self.velocity_x
